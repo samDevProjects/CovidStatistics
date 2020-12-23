@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Region{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-block table-border-style">
+            <div class="card-header">
+                <h5>{{region.regionName}}</h5>
+                <a class="btn btn-info btn-right" href="{{ path('region_index') }}">back to list</a>
+            </div>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <th>Id</th>
+                                <td>{{ region.id }}</td>
+                            </tr>
+                            <tr>
+                                <th>Region_name</th>
+                                <td>{{ region.regionName }}</td>
+                            </tr>
+                            <tr>
+                                <th>Region_code</th>
+                                <td>{{ region.regionCode }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <a class="btn btn-info" href="{{ path('region_edit', {'id': region.id}) }}">edit</a>
+                {{ include('region/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

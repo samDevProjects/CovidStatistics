@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Hospital{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                    <h5>Edit</h5>
+                    <a class="btn btn-info btn-right right" href="{{ path('hospital_index') }}">back to list</a>
+            </div>
+            <div class="card-block table-border-style">
+                {{ include('hospital/_form.html.twig', {'button_label': 'Update'}) }}
+
+                {{ include('hospital/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

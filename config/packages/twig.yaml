@@ -1,2 +1,6 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+
+knp_paginator:
+    template:
+        pagination: "resources/pagination.html.twig"

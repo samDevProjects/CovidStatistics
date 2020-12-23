@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lab{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Lab</h5>
+                <a class="btn btn-info btn-right" href="{{ path('lab_index') }}">back to list</a>
+            </div>        
+            <div class="card-block table-border-style">
+
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <th>Id</th>
+                                <td>{{ lab.id }}</td>
+                            </tr>
+                            <tr>
+                                <th>Lab_name</th>
+                                <td>{{ lab.labName }}</td>
+                            </tr>
+                            <tr>
+                                <th>Longitude</th>
+                                <td>{{ lab.longitude }}</td>
+                            </tr>
+                            <tr>
+                                <th>Latitude</th>
+                                <td>{{ lab.latitude }}</td>
+                            </tr>
+                            <tr>
+                                <th>Cases_number</th>
+                                <td>{{ lab.casesNumber }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a class="btn btn-info" href="{{ path('lab_edit', {'id': lab.id}) }}">edit</a>
+                {{ include('lab/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+</div>{% endblock %}

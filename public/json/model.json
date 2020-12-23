@@ -1,0 +1,43 @@
+{
+    "datasetid": "test-covid19-labo-ville-france",
+    "recordid": "452ebe7057a22e3645d2a8c658b55674437e7444",
+    "fields": {
+        "nb_test_f": 21,
+        "reg_code": "75",
+        "nb_neg_f": 20,
+        "nom_dep_min": "Pyr\u00e9n\u00e9es-Atlantiques",
+        "age_label": "15-44 ans",
+        "nb_test_m": 4,
+        "countrycode_iso_3166_1_alpha3": "FRA",
+        "geo_point_2d": [43.2555265161, -0.759231599387],
+        "nb_neg_m": 4,
+        "nb_test": 25,
+        "region_min": "Nouvelle-Aquitaine",
+        "dep_code": "64",
+        "nb_pos_m": 0,
+        "date": "2020-04-02",
+        "nb_pos_f": 1,
+        "nb_neg": 24,
+        "nb_pos": 1
+    },
+    "datasetid": "donnees-hospitalieres-covid-19-dep-france",
+    "recordid": "2b73950cfddc21440cdcee4594f9063253700761",
+    "fields": {
+        "reg_code": 11,
+        "day_death_new": 26,
+        "day_hosp_new": 278,
+        "nom_dep_min": "Seine-Saint-Denis",
+        "countrycode_iso_3166_1_alpha3": "FRA",
+        "region_min": "\u00cele-de-France",
+        "geo_point_2d": [48.9083101579, 2.48332622588],
+        "sex": "Tous", "day_intcare": 228,
+        "tot_out": 358,
+        "dep_code": "93",
+        "tot_death": 187,
+        "date": "2020-04-01",
+        "day_hosp": 1173,
+        "day_out_new": 47,
+        "day_intcare_new": 45
+    },
+    "record_timestamp": "2020-12-03T20:30:00+01:00"
+}

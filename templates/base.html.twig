@@ -3,10 +3,414 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <!-- custom CSS -->
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+            {# <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}"> #}
+            {# <link rel="stylesheet" href="{{ asset('fonts/fontawesome/css/fontawesome-all.min.css ') }}"> #}
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+            <link rel="stylesheet" href="{{ asset('plugins/animation/css/animate.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('plugins/prism/css/prism.min.css') }}">
+        {% endblock %}
+        <!-- internal CSS -->
+        <style>
+            .pcoded-navbar .pcoded-inner-navbar>li.active>a,
+            .pcoded-navbar .pcoded-inner-navbar>li.pcoded-trigger>a {
+                background: transparent;
+            }
+
+            .pcoded-navbar .pcoded-inner-navbar>li.active>a,
+            .pcoded-navbar .pcoded-inner-navbar>li>a.active {
+                background: #333f54;
+                color: #fff;
+                position: relative;
+            }
+
+            .pcoded-navbar .pcoded-inner-navbar>li.active>a,
+            .pcoded-navbar .pcoded-inner-navbar>li>a.active>.pcoded-micon {
+                color: #fff;
+            }
+
+            .pcoded-navbar .pcoded-inner-navbar>li>a.active:after {
+                content: "";
+                background-color: #1dc4e9;
+                z-index: 1027;
+                position: absolute;
+                left: 0;
+                top: 0px;
+                width: 3px;
+                height: 100%;
+            }
+
+            .nav-pills .nav-link.active,
+            .nav-pills .show>.nav-link {
+                background: #04a9f5;
+                box-shadow: none;
+            }
+
+            pre[class*=language-]>code {
+                border-left: 5px solid #04a9f5;
+            }
+
+            .nav-pills>li i {
+                display: inline-block;
+                font-size: 15px;
+                padding: 0px 0;
+            }
+
+            .card-block.table-border-style{
+                width: 90%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .card{
+                width: 80%;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 30px;
+            }
+
+            .table .thead-dark th {
+                color: #fff;
+                background-color: #72829f;
+                border-color: #72829f;
+            }
+            .progress-bar.progress-c-theme.danger {
+                background: linear-gradient(-135deg, #e91d1d 0%, #e9a11d 100%);
+            }
+            .icon-arrow-up.danger:before {
+                color: red;
+            }
+            .icon-arrow-up.warning:before {
+                color: #A18AD4;
+            }
+            .my-container {
+                width: 85%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .my-container.custom{
+                width: 88%;
+            }
+            #inner-chart{
+                width: 100%;
+                height: 40px;
+                position: absolute;
+                top: 50%;
+                left: 0;
+                margin-top: -20px;
+                line-height:19px;
+                text-align: center;
+                z-index: 999999999999999;
+            }
+            .card-relative{
+                position: relative;
+            }
+            /* See http://www.chartjs.org/docs/latest/general/responsive.html */
+            .chart-container {
+                position: relative;
+                height: 100%;
+                width: 100%;
+            }
+            /*.isResizable {
+                background-color: #ffffff;
+                margin: 0px auto;
+                padding: 5px;
+                border: 1px solid #d8d8d8;
+                overflow: hidden;
+                
+                width: 500px;
+                height: 339px;
+                min-width: 280px;
+                min-height: 280px;
+                max-width: 1200px;
+                max-height: 600px;
+            }*/
+            {# .card.card-width{
+                width: 500px;
+            } #}
+            {# @media(min-width:500px){
+                .card.card-width{
+                    width: 500px;
+                }
+            } #}
+            .page-title{
+                text-align: center;
+                font-size: xx-large;
+                color: #424242;
+                margin-bottom: 40px;
+            }
+            .calendar{
+                background: #fafafa;
+                transition: background .2s;
+            }
+            .link{
+                color: #757575;
+            }
+            .empty{
+                opacity: 0.4;
+            }
+            .calendar:hover{
+                background: #8DF2DC; 
+            }
+            .btn-left{
+                float: right;
+                margin: -8px;
+            }
+            .btn-delete{
+                position: absolute;
+                bottom: 0px;
+                left: 98px;
+            }
+            .btn-right{
+                position: absolute;
+                right: 10px;
+                top: 12px;
+            }
+            form{
+                position: relative;
+            }
+            .map{
+                margin-top: 30px;
+                text-align: center;
+                position: relative;
+            }
+            .title-color{
+                color: #04A9F5;
+            }
+            .mapTooltip{
+                position: absolute;
+                background: #55fcfc;
+                padding: 10px 20px 10px 20px;
+                border-radius: 15px;
+                border: 1px solid gray;
+                opacity: 0.7;
+                color: black;
+            }
+            .pagination{
+                position: absolute;
+                display: flex;
+                padding-left: 0;
+                bottom: 23px;
+                right: 65px;
+            }
+            .table-responsive {
+                position: relative;
+            }
+            .right{
+                right: 40px;
+            }
+        </style>
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        <nav class="pcoded-navbar navbar-collapsed">
+            <div class="navbar-wrapper">
+                <div class="navbar-brand header-logo">
+                    <a href="/records/all" class="b-brand">
+                        <div class="b-bg">
+                            <i class="fas fa-virus"></i>
+                        </div>
+                        <span class="b-title">Covid-Fr</span>
+                    </a>
+                    <a class="mobile-menu" id="mobile-collapse" href="javascript:"><span></span></a>
+                </div>
+
+                <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: 100%; height: calc(100vh - 70px);">
+                <div class="navbar-content scroll-div" style="overflow: hidden; width: 100%; height: calc(100vh - 70px);">
+
+                    <ul class="nav pcoded-inner-navbar">
+                        <li class="nav-item pcoded-menu-caption">
+                            <label>Navigation</label>
+                        </li>
+                        <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item">
+                            <a href="/records/all" class="nav-link "><span class="pcoded-micon"><i class="fas fa-chart-line"></i></span><span class="pcoded-mtext">Records By Week</span></a>
+                        </li>
+                        <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item">
+                            <a href="/departement" class="nav-link "><span class="pcoded-micon"><i class="fas fa-city"></i></span><span class="pcoded-mtext">Records By Departement</span></a>
+                        </li>
+                        
+                        <li class="nav-item pcoded-menu-caption">
+                            <label>UI Element</label>
+                        </li>
+                        <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item pcoded-hasmenu pcoded-trigger">
+                            <a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="fas fa-table"></i></span><span class="pcoded-mtext">Tables</span></a>
+                            <ul class="pcoded-submenu" style="display: block;">
+                                <li class=""><a href="/region"><span class="pcoded-micon"><i class="fas fa-university"></i></span><span class="pcoded-mtext">Regions</span></a></li>
+                                <li class=""><a href="/departement/table" class=""><span class="pcoded-micon"><i class="fas fa-city"></i></span><span class="pcoded-mtext">Departements</span></a></li>
+                                <li class=""><a href="/hospital"><span class="pcoded-micon"><i class="fas fa-hospital"></i></span><span class="pcoded-mtext">Hospitals</span></a></li>
+                                
+                                <li class=""><a href="/lab" class=""><span class="pcoded-micon"><i class="fas fa-vial"></i></span><span class="pcoded-mtext">Labs</span></a></li>
+
+
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+        </nav>
+        
+        <header class="navbar pcoded-header navbar-expand-lg navbar-light">
+            <div class="m-header">
+                <a class="mobile-menu" id="mobile-collapse1" href="javascript:"><span></span></a>
+                <a href="/records/all" class="b-brand">
+                    <div class="b-bg">
+                        <i class="fas fa-virus"></i>
+                    </div>
+                    <span class="b-title">Covid-Fr</span>
+                </a>
+            </div>
+            <a class="mobile-menu" id="mobile-header" href="javascript:">
+                <i class="feather icon-more-horizontal"></i>
+            </a>
+            {# <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <div class="main-search open">
+                            <div class="input-group">
+                                <input type="text" id="m-search" class="form-control" placeholder="Search . . ." style="width: 90px;">
+                                <a href="javascript:" class="input-group-append search-close">
+                                    <i class="feather icon-x input-group-text"></i>
+                                </a>
+                                <span class="input-group-append search-btn btn btn-primary">
+                                    <i class="feather icon-search input-group-text"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                </ul>
+            </div> #}
+        </header>
+
+        {% block javascripts %}
+            {# <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script> #}
+            <script src="{{ asset('js/departements/jquery.min.js') }}" charset="utf-8" ></script>
+
+            <script src="{{ asset('js/vendor-all.min.js') }}"></script>
+            <script src="{{ asset('plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+            <script src="{{ asset('js/pcoded.min.js') }}"></script>
+
+
+            <script src="{{ asset('js/departements/departement.js') }}" charset="utf-8" ></script>
+
+            <script src="{{ asset('js/charts/records.js') }}"></script>
+            <script src="{{ asset('js/charts/records_donut.js') }}"></script>
+            <script src="{{ asset('js/charts/records_pie.js') }}"></script>
+            <script src="{{ asset('js/charts/records_by_dep.js') }}"></script>
+            <script src="{{ asset('js/chart.js') }}"></script>
+            <script>
+            Chart.pluginService.register({
+                beforeDraw: function(chart) {
+                if (chart.config.options.elements.center) {
+                    // Get ctx from string
+                    var ctx = chart.chart.ctx;
+
+                    // Get options from the center object in options
+                    var centerConfig = chart.config.options.elements.center;
+                    var fontStyle = centerConfig.fontStyle || 'Arial';
+                    var txt = centerConfig.text;
+                    var color = centerConfig.color || '#000';
+                    var maxFontSize = centerConfig.maxFontSize || 75;
+                    var sidePadding = centerConfig.sidePadding || 20;
+                    var sidePaddingCalculated = (sidePadding / 100) * (chart.innerRadius * 2)
+                    // Start with a base font of 30px
+                    ctx.font = "30px " + fontStyle;
+
+                    // Get the width of the string and also the width of the element minus 10 to give it 5px side padding
+                    var stringWidth = ctx.measureText(txt).width;
+                    var elementWidth = (chart.innerRadius * 2) - sidePaddingCalculated;
+
+                    // Find out how much the font can grow in width.
+                    var widthRatio = elementWidth / stringWidth;
+                    var newFontSize = Math.floor(30 * widthRatio);
+                    var elementHeight = (chart.innerRadius * 2);
+
+                    // Pick a new font size so it will not be larger than the height of label.
+                    var fontSizeToUse = Math.min(newFontSize, elementHeight, maxFontSize);
+                    var minFontSize = centerConfig.minFontSize;
+                    var lineHeight = centerConfig.lineHeight || 25;
+                    var wrapText = false;
+
+                    if (minFontSize === undefined) {
+                    minFontSize = 20;
+                    }
+
+                    if (minFontSize && fontSizeToUse < minFontSize) {
+                    fontSizeToUse = minFontSize;
+                    wrapText = true;
+                    }
+
+                    // Set font settings to draw it correctly.
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    var centerX = ((chart.chartArea.left + chart.chartArea.right) / 2);
+                    var centerY = ((chart.chartArea.top + chart.chartArea.bottom) / 2);
+                    ctx.font = fontSizeToUse + "px " + fontStyle;
+                    ctx.fillStyle = color;
+
+                    if (!wrapText) {
+                    ctx.fillText(txt, centerX, centerY);
+                    return;
+                    }
+
+                    var words = txt.split(' ');
+                    var line = '';
+                    var lines = [];
+
+                    // Break words up into multiple lines if necessary
+                    for (var n = 0; n < words.length; n++) {
+                    var testLine = line + words[n] + ' ';
+                    var metrics = ctx.measureText(testLine);
+                    var testWidth = metrics.width;
+                    if (testWidth > elementWidth && n > 0) {
+                        lines.push(line);
+                        line = words[n] + ' ';
+                    } else {
+                        line = testLine;
+                    }
+                    }
+
+                    // Move the center up depending on line height and number of lines
+                    centerY -= (lines.length / 2) * lineHeight;
+
+                    for (var n = 0; n < lines.length; n++) {
+                    ctx.fillText(lines[n], centerX, centerY);
+                    centerY += lineHeight;
+                    }
+                    //Draw text in center
+                    ctx.fillText(line, centerX, centerY);
+                }
+                }
+            });
+            </script>
+
+            {# <script src='https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js'></script> #}
+            <script src="{{ asset('js/departements/raphael.min.js') }}" charset="utf-8" ></script>
+            {# <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-mapael/2.1.0/js/jquery.mapael.min.js'></script> #}
+            <script src="{{ asset('js/departements/jquery.mapael.min.js') }}" charset="utf-8" ></script>
+
+            <script src="{{ asset('js/departements/france_departments.min.js') }}" charset="utf-8" ></script>
+            <script src="{{ asset('js/departements/map_dep.js') }}" charset="utf-8" ></script>
+
+            <script type="text/javascript">
+    $.post('{{ path('dep_api') }}', function(data){
+        getDepData(data);
+    });
+</script>
+
+        {% endblock %}
+
+
+    <div class="pcoded-main-container">
+        {% block body %}
+
+        {% endblock %}
+
+
+    </div>
+        
     </body>
 </html>

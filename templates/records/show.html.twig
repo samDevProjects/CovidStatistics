@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Records{% endblock %}
+
+{% block body %}
+
+    {% set labs = record.getLabsRec %}
+    {% set hospitals = record.gethospitalsRec %}
+
+    {% set all_cases_number = 0 %}
+    {% set all_tested_number = 0 %}
+    {% set all_deaths_number = 0 %}
+    {% set all_cured_number = 0 %} 
+ 
+    {% set cases_number = 0 %}
+    {% set tested_number = 0 %}
+    {% set deaths_number = 0 %}
+    {% set cured_number = 0 %}
+
+<h3 class="m-b-10 page-title">Week N° {{ record.weekRecord }}</h3>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Week N°{{ record.weekRecord }} records</h5>
+            </div>
+            <div class="card-block table-border-style">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Departement</th>
+                                <th>Cases</th>
+                                <th>Tested</th>
+                                <th>Deaths</th>
+                                <th>Cured</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for departement in departments|sort((a, b) => a <=> b) %}
+                                {% for hospital in hospitals %}
+                                    {% if hospital.depName == departement %}
+                                        {% set cases_number = cases_number + hospital.casesNumber %}
+                                        {% set deaths_number = deaths_number + hospital.deathsNumber %}
+                                        {% set cured_number = cured_number + hospital.curedNumber %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% for lab in labs %}
+                                    {% if lab.depName == departement %}
+                                        {% set cases_number = cases_number + lab.casesNumber %}
+                                        {% set tested_number = tested_number + lab.testedNumber %}
+                                    {% endif %}
+                                {% endfor %}
+                                <tr>
+                                    <td>{{ departement }}</td>
+                                    <td>{{ cases_number }}</td>
+                                    <td>{{ tested_number }}</td>
+                                    <td>{{ deaths_number }}</td>
+                                    <td>{{ cured_number }}</td>
+                                </tr>
+                                {% set all_cases_number = all_cases_number + cases_number %}
+                                {% set all_deaths_number = all_deaths_number + deaths_number %}
+                                {% set all_cured_number = all_cured_number + cured_number %}
+                                {% set all_tested_number = all_tested_number + tested_number %}
+
+                                {% set cases_number = 0 %}
+                                {% set tested_number = 0 %}
+                                {% set deaths_number = 0 %}
+                                {% set cured_number = 0 %}
+
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {# {{ knp_pagination_render(pagination) }} #}
+                <a class="btn btn-info" href="{{ path('records_users_index') }}">back to list</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

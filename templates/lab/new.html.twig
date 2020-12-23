@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Lab{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                    <h5>Create new Lab</h5>
+                    <a class="btn btn-info btn-right right" href="{{ path('lab_index') }}">back to list</a>
+            </div>
+            <div class="card-block table-border-style">
+                {{ include('lab/_form.html.twig') }}
+
+                {{ include('lab_index') }}
+            </div>
+        </div>
+    </div>
+</div>
+
+    {# <h1>Create new Lab</h1>
+
+    {{ include('lab/_form.html.twig') }}
+
+    <a href="{{ path('lab_index') }}">back to list</a> #}
+{% endblock %}

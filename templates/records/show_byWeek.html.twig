@@ -1,0 +1,119 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Records{% endblock %}
+
+{% block body %}
+
+    {% set labs = record.getLabsRec %}
+    {% set hospitals = record.gethospitalsRec %}
+
+    {% set all_cases_number = 0 %}
+    {% set all_tested_number = 0 %}
+    {% set all_deaths_number = 0 %}
+    {% set all_cured_number = 0 %} 
+ 
+    {% set label_departements = [] %}
+    {% set data_cases = [] %}
+    {% set data_deaths = [] %}
+    {% set data_cured = [] %}
+
+    {% set cases_number = 0 %}
+    {% set tested_number = 0 %}
+    {% set deaths_number = 0 %}
+    {% set cured_number = 0 %}
+
+<h3 class="m-b-10 page-title">Week N° {{ record.weekRecord }}</h3>
+
+<div class="my-container custom">
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Positif/Negatif</h5>
+                </div>
+                <div class="card-block table-border-style chart-container">
+                    <canvas id="myChart_donut"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Cured/Deaths</h5>
+                </div>
+                <div class="card-block table-border-style chart-container">
+                    <canvas id="myChart_pie"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Covid situation per departement</h5>
+            </div>
+            <div class="card-block table-border-style">
+                <canvas id="myChart-dep"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+                            {% for departement in departments|sort((a, b) => a <=> b) %}
+                                {% for hospital in hospitals %}
+                                    {% if hospital.depName == departement %}
+                                        {% set cases_number = cases_number + hospital.casesNumber %}
+                                        {% set deaths_number = deaths_number + hospital.deathsNumber %}
+                                        {% set cured_number = cured_number + hospital.curedNumber %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% for lab in labs %}
+                                    {% if lab.depName == departement %}
+                                        {% set cases_number = cases_number + lab.casesNumber %}
+                                        {% set tested_number = tested_number + lab.testedNumber %}
+                                    {% endif %}
+                                {% endfor %}
+
+
+                                {% set data_cases = data_cases|merge([cases_number]) %}
+                                {% set data_deaths = data_deaths|merge([deaths_number]) %}
+                                {% set data_cured = data_cured|merge([cured_number]) %}
+
+                                {% set all_cases_number = all_cases_number + cases_number %}
+                                {% set all_deaths_number = all_deaths_number + deaths_number %}
+                                {% set all_cured_number = all_cured_number + cured_number %}
+                                {% set all_tested_number = all_tested_number + tested_number %}
+
+                                {% set cases_number = 0 %}
+                                {% set tested_number = 0 %}
+                                {% set deaths_number = 0 %}
+                                {% set cured_number = 0 %}
+
+                            {% endfor %}
+
+<script>
+    {# document.getElementById('all_cases').innerHTML = {{ all_cases_number }};
+    document.getElementById('all_deaths').innerHTML = {{ all_deaths_number }};
+    document.getElementById('all_cured').innerHTML = {{ all_cured_number }}; #}
+
+    {# document.getElementById('cases-bar').setAttribute('style', 'width:{{ cases_rate }}%;');
+    document.getElementById('deaths-bar').setAttribute('style', 'width:{{ (deaths_rate) }}%;');
+    document.getElementById('cured-bar').setAttribute('style', 'width:{{ (cured_rate) }}%;'); #}
+
+
+    document.getElementById('myChart-dep').setAttribute('data-lb', {{departments|json_encode|raw}});
+    document.getElementById('myChart-dep').setAttribute('data-cases', {{data_cases|json_encode}});
+    document.getElementById('myChart-dep').setAttribute('data-deaths', {{data_deaths|json_encode}});
+    document.getElementById('myChart-dep').setAttribute('data-cured', {{data_cured|json_encode}});
+    
+    {# document.getElementById('test-id').setAttribute('data-test', {{dep|json_encode|raw}}); #}
+    
+    chart_donut({{all_cases_number}}, {{all_tested_number}}, 'myChart_donut', 'Positif', 'Negatif', true);
+    chart_pie({{all_cases_number}}, {{all_deaths_number}}, {{all_cured_number}}, 'myChart_pie');
+    chart_dep();
+</script>
+
+{% endblock %}

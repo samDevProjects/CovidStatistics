@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Region index{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Region index</h5>
+            </div>
+            <div class="card-block table-border-style">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Id</th>
+                                <th>Region_name</th>
+                                <th>Region_code</th>
+                                <th>actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for region in regions %}
+                            <tr>
+                                <td>{{ region.id }}</td>
+                                <td>{{ region.regionName }}</td>
+                                <td>{{ region.regionCode }}</td>
+                                <td>
+                                    <a href="{{ path('region_show', {'id': region.id}) }}">show</a>
+                                    <a href="{{ path('region_edit', {'id': region.id}) }}">edit</a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="4">no records found</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {{ knp_pagination_render(regions) }}
+                <a class="btn btn-info" href="{{ path('region_new') }}">Create new</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

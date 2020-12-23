@@ -1,0 +1,37 @@
+{{ form_start(form) }}
+    <div class="form-group row">
+        {{ form_label(form.week_record, 'Record week', {
+            'label_attr': {'class': 'col-sm-2 col-form-label'} 
+        }) }}
+        <div class="col-sm-8">
+            {{ form_row(form.week_record, {
+                    'attr': {'class': 'form-control custom-input' }
+                })
+            }}
+        </div>
+    </div>
+    <div class="form-group row">
+        {{ form_label(form.labs_rec, 'Labs', {
+            'label_attr': {'class': 'col-sm-2 col-form-label'} 
+        }) }}
+        <div class="col-sm-8">
+            {{ form_row(form.labs_rec, {
+                    'attr': {'class': 'form-control custom-input' }
+                })
+            }}
+        </div>
+    </div>
+    <div class="form-group row">
+        {{ form_label(form.hospitals_rec, 'Hospitals', {
+            'label_attr': {'class': 'col-sm-2 col-form-label'} 
+        }) }}
+        <div class="col-sm-8">
+            {{ form_row(form.hospitals_rec, {
+                    'attr': {'class': 'form-control custom-input' }
+                })
+            }}
+        </div>
+    </div>
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+{{ dump(form.labs_rec.parent.children) }}

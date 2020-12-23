@@ -1,0 +1,25 @@
+{{ form_start(form) }}
+    <div class="form-group row">
+        {{ form_label(form.region_name, 'Region name', {
+            'label_attr': {'class': 'col-sm-2 col-form-label'} 
+        }) }}
+        <div class="col-sm-8">
+            {{ form_row(form.region_name, {
+                    'attr': {'class': 'form-control custom-input', 'placeholder': 'Enter the region name' }
+                })
+            }}
+        </div>
+    </div>
+    <div class="form-group row">
+        {{ form_label(form.region_code, 'Region code', {
+            'label_attr': {'class': 'col-sm-2 col-form-label'} 
+        }) }}
+        <div class="col-sm-8">
+            {{ form_row(form.region_code, {
+                    'attr': {'class': 'form-control custom-input', 'placeholder': 'Enter the region code' }
+                })
+            }}
+        </div>
+    </div>
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

@@ -1,0 +1,69 @@
+{{ form_start(form) }}
+    <div class="form-group row">
+        {{ form_label(form.lab_name, 'Lab name', {
+            'label_attr': {'class': 'col-sm-2 col-form-label'} 
+        }) }}
+        <div class="col-sm-8">
+            {{ form_row(form.lab_name, {
+                    'attr': {'class': 'form-control custom-input', 'placeholder': 'Enter the lab name' }
+                })
+            }}
+        </div>
+    </div>
+    <div class="form-group row">
+        {{ form_label(form.longitude, 'Longitude', {
+            'label_attr': {'class': 'col-sm-2 col-form-label'} 
+        }) }}
+        <div class="col-sm-8">
+            {{ form_row(form.longitude, {
+                    'attr': {'class': 'form-control custom-input', 'placeholder': 'Enter the longitude' }
+                })
+            }}
+        </div>
+    </div>
+    <div class="form-group row">
+        {{ form_label(form.latitude, 'Latitude', {
+            'label_attr': {'class': 'col-sm-2 col-form-label'} 
+        }) }}
+        <div class="col-sm-8">
+            {{ form_row(form.latitude, {
+                    'attr': {'class': 'form-control custom-input', 'placeholder': 'Enter the latitude' }
+                })
+            }}
+        </div>
+    </div>
+    <div class="form-group row">
+        {{ form_label(form.cases_number, 'Cases number', {
+            'label_attr': {'class': 'col-sm-2 col-form-label'} 
+        }) }}
+        <div class="col-sm-8">
+            {{ form_row(form.cases_number, {
+                    'attr': {'class': 'form-control custom-input', 'placeholder': 'Enter the cases number' }
+                })
+            }}
+        </div>
+    </div>
+    <div class="form-group row">
+        {{ form_label(form.date_record, 'Record date', {
+            'label_attr': {'class': 'col-sm-2 col-form-label'} 
+        }) }}
+        <div class="col-sm-8">
+            {{ form_row(form.date_record, {
+                    'attr': {'class': 'form-control custom-input' }
+                })
+            }}
+        </div>
+    </div>
+    <div class="form-group row">
+        {{ form_label(form.departement, 'Record date', {
+            'label_attr': {'class': 'col-sm-2 col-form-label'} 
+        }) }}
+        <div class="col-sm-8">
+            {{ form_row(form.departement, {
+                    'attr': {'class': 'form-control custom-input' }
+                })
+            }}
+        </div>
+    </div>
+    <button class="btn btn-info">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

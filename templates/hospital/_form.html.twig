@@ -1,0 +1,58 @@
+{{ form_start(form) }}
+<div class="form-group row">
+        {{ form_label(form.hospital_name, 'Hospital name', {
+            'label_attr': {'class': 'col-sm-2 col-form-label'} 
+        }) }}
+        <div class="col-sm-8">
+            {{ form_row(form.hospital_name, {
+                    'attr': {'class': 'form-control custom-input', 'placeholder': 'Enter the hospital name' }
+                })
+            }}
+        </div>
+</div>
+<div class="form-group row">
+        {{ form_label(form.cases_number, 'Cases number', {
+            'label_attr': {'class': 'col-sm-2 col-form-label'} 
+        }) }}
+        <div class="col-sm-8">
+            {{ form_row(form.cases_number, {
+                    'attr': {'class': 'form-control custom-input', 'placeholder': 'Enter the cases number' }
+                })
+            }}
+        </div>
+    </div>
+    <div class="form-group row">
+        {{ form_label(form.deaths_number, 'Deaths number', {
+            'label_attr': {'class': 'col-sm-2 col-form-label'} 
+        }) }}
+        <div class="col-sm-8">
+            {{ form_row(form.deaths_number, {
+                    'attr': {'class': 'form-control custom-input', 'placeholder': 'Enter the deaths number' }
+                })
+            }}
+        </div>
+    </div>
+    <div class="form-group row">
+        {{ form_label(form.date_record, 'Record date', {
+            'label_attr': {'class': 'col-sm-2 col-form-label'} 
+        }) }}
+        <div class="col-sm-8">
+            {{ form_row(form.date_record, {
+                    'attr': {'class': 'form-control custom-input' }
+                })
+            }}
+        </div>
+    </div>
+    <div class="form-group row">
+        {{ form_label(form.departement, 'Departement name', {
+            'label_attr': {'class': 'col-sm-2 col-form-label'} 
+        }) }}
+        <div class="col-sm-8">
+            {{ form_row(form.departement, {
+                    'attr': {'class': 'form-control custom-input' }
+                })
+            }}
+        </div>
+    </div>
+    <button class="btn btn-info">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

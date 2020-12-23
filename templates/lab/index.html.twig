@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lab index{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Lab index</h5>
+            </div>
+            <div class="card-block table-border-style">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Id</th>
+                                <th>Lab_name</th>
+                                <th>Date_record</th>
+                                <th>Longitude</th>
+                                <th>Latitude</th>
+                                <th>Cases_number</th>
+                                {# <th>Record_date</th> #}
+                                <th>actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for lab in labs %}
+                            <tr>
+                                <td>{{ lab.id }}</td>
+                                <td>{{ lab.labName }}</td>
+                                <td>{{ lab.dateRecord|date }}</td>
+                                <td>{{ lab.longitude }}</td>
+                                <td>{{ lab.latitude }}</td>
+                                <td>{{ lab.casesNumber }}</td>
+                                {# <td>{{ lab.recordDate }}</td> #}
+                                <td>
+                                    <a href="{{ path('lab_show', {'id': lab.id}) }}">show</a>
+                                    <a href="{{ path('lab_edit', {'id': lab.id}) }}">edit</a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="6">no records found</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {{ knp_pagination_render(labs) }}
+                <a class="btn btn-info" href="{{ path('lab_new') }}">Create new</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

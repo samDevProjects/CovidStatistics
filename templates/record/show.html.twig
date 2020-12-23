@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Record{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-block table-border-style">
+                <h1>Record</h1>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                    {% set hospitalCases = record.hospital.casesNumber|default(0) %}
+                    {% set labCases = record.lab.casesNumber|default(0) %}
+                    {% set weekCases = labCases + hospitalCases %}
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <td>{{ record.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Hospital cases</th>
+                            <td>{{ hospitalCases }}</td>
+                        </tr>
+                        <tr>
+                            <th>Lab cases</th>
+                            <td>{{ labCases }}</td>
+                        </tr>
+                        <tr>
+                            <th>cases of the week</th>
+                            <td>{{ weekCases }}</td>
+                        </tr>
+                        <tr>
+                            <th>deaths number</th>
+                            <td>{{ record.hospital.deathsNumber|default(0) }}</td>
+                        </tr>
+                        <tr>
+                            <th>Week_record</th>
+                            <td>{{ record.weekRecord ? record.weekRecord|date('Y-m-d H:i:s') : '' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <a class="btn btn-info" href="{{ path('record_index') }}">back to list</a>
+            <a class="btn btn-info" href="{{ path('record_edit', {'id': record.id}) }}">edit</a>
+            {{ include('record/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

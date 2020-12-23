@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Hospital{% endblock %}
+
+{% block body %}
+
+{% block body %}
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                    <h5>Create new Hospital</h5>
+                    <a class="btn btn-info btn-right right" href="{{ path('hospital_index') }}">back to list</a>
+            </div>
+            <div class="card-block table-border-style">
+                {{ include('hospital/_form.html.twig') }}
+
+                {{ include('hospital_index') }}
+            </div>
+        </div>
+    </div>
+</div>
+{# 
+    {{ include('hospital/_form.html.twig') }}
+
+    <a href="{{ path('hospital_index') }}">back to list</a> #}
+{% endblock %}

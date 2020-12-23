@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Records index{% endblock %}
+
+{% block body %}
+    {% set all_cases_number = 0 %}
+    {% set all_tested_number = 0 %}
+    {% set all_deaths_number = 0 %}
+    {% set all_cured_number = 0 %}
+
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                    <h5>Records index</h5>
+            </div>
+            <div class="card-block table-border-style">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Week N°</th>
+                                <th>Cases</th>
+                                <th>Tested</th>
+                                <th>Deaths</th>
+                                <th>Cured</th>
+                                <th>actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for record in records %}
+                            {% set labs = record.getLabsRec %}
+                            {% set hospitals = record.gethospitalsRec %}
+                            {% set cases_number = 0 %}
+                            {% set tested_number = 0 %}
+                            {% set deaths_number = 0 %}
+                            {% set cured_number = 0 %}
+
+                            {% for hospital in hospitals %}
+                                {% set cases_number = cases_number + hospital.casesNumber %}
+                                {% set deaths_number = deaths_number + hospital.deathsNumber %}
+                                {% set cured_number = cured_number + hospital.curedNumber %}
+                            {% endfor %}
+                            {% for lab in labs %}
+                                {% set cases_number = cases_number + lab.casesNumber %}
+                                {% set tested_number = tested_number + lab.testedNumber %}
+                            {% endfor %}
+                            <tr>
+                                <td>{{ record.weekRecord }}</td>
+                                <td>{{ cases_number }}</td>
+                                <td>{{ tested_number }}</td>
+                                <td>{{ deaths_number }}</td>
+                                <td>{{ cured_number }}</td>
+                                <td>
+                                    <a href="{{ path('records_show', {'id': record.id}) }}">show</a>
+                                    <a href="{{ path('records_edit', {'id': record.id}) }}">edit</a>
+                                </td>
+                            </tr>
+                            {% set all_cases_number = all_cases_number + cases_number %}
+                            {% set all_deaths_number = all_deaths_number + deaths_number %}
+                            {% set all_cured_number = all_cured_number + cured_number %}
+                            {% set all_tested_number = all_tested_number + tested_number %}
+
+                        {% else %}
+                            <tr>
+                                <td colspan="2">no records found</td>
+                            </tr>
+                        {% endfor %}
+                
+                        </tbody>
+                    </table>
+                {{ knp_pagination_render(records) }}                </div>
+
+                <a class="btn btn-info" href="{{ path('records_new') }}">Create new</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

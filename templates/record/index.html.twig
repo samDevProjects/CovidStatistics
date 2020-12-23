@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Record index{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-block table-border-style">
+                <h1>Record index</h1>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Id</th>
+                                <th>Week N°</th>
+                                <th>hospital Cases</th>
+                                <th>hospital Name</th>
+                                <th>Lab Cases</th>
+                                <th>Lab Name</th>
+                                <th>Week Cases</th>
+                                <th>Week Deaths</th>
+                                <th>Death Ratio</th>
+                                <th>actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for record in records %}
+                            {% set hospitalCases = record.hospital.casesNumber|default(0) %}
+                            {% set weekDeaths = record.hospital.deathsNumber|default(0) %}
+                            {% set labCases = record.lab.casesNumber|default(0) %}
+                            {% set weekCases = labCases + hospitalCases %}
+                            {% set deathRatio = (weekCases is same as (0)) ? 'NAN' : (weekDeaths / weekCases) %}
+                            {% set hospitalName = record.hospital.hospitalName|default('') %}
+                            {% set labName = record.lab.labName|default('') %}
+                            <tr>
+                                <td>{{ record.id }}</td>
+                                <td>{{ record.weekRecord ? record.weekRecord|date('W') : '' }}</td>
+                                <td>{{ hospitalCases }}</td>
+                                <td>{{ hospitalName }}</td>
+                                <td>{{ labCases }}</td>
+                                <td>{{ labName }}</td>
+                                <td>{{ weekCases }}</td>
+                                <td>{{ weekDeaths }}</td>
+                                <td>{{ deathRatio }}</td>
+                                <td>
+                                    <a href="{{ path('record_show', {'id': record.id}) }}">show</a>
+                                    <a href="{{ path('record_edit', {'id': record.id}) }}">edit</a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="3">no records found</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <a class="btn btn-info" href="{{ path('record_new') }}">Create new</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

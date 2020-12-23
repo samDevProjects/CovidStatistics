@@ -1,0 +1,184 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Records index{% endblock %}
+
+{% block body %}
+    {% set all_cases_number = 0 %}
+    {% set all_tested_number = 0 %}
+    {% set all_deaths_number = 0 %}
+    {% set all_cured_number = 0 %}
+{% set weeks = [] %}
+
+{% for record in records %}
+    {% set weeks = weeks|merge([record.weekRecord]) %}
+{% endfor %}
+<h3 class="m-b-10 page-title">Global Situation per Week </h3>
+<div class="my-container">
+    <div class="row">
+        <div class="col-md-6 col-xl-4">
+            <div class="card daily-sales">
+                <div class="card-block">
+                    <h6 class="mb-4">Total Cases</h6>
+                    <div class="row d-flex align-items-center">
+                        <div class="col-9">
+                            <h3 class="f-w-300 d-flex align-items-center m-b-0"><i class="feather icon-arrow-up text-c-green f-30 m-r-10 warning"></i><span id="all_cases"><span></h3>
+                        </div>
+                        <div class="col-3 text-right">
+                            <h8 class="m-b-0"><span id="rate_cases"></span>%</h8>
+                        </div>
+                    </div>
+                    <div class="progress m-t-30" style="height: 7px;">
+                        <div id="cases-bar" class="progress-bar progress-c-theme2" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <div class="card daily-sales">
+                <div class="card-block">
+                    <h6 class="mb-4">Total Deaths</h6>
+                    <div class="row d-flex align-items-center">
+                        <div class="col-9">
+                            <h3 class="f-w-300 d-flex align-items-center m-b-0"><i class="feather icon-arrow-up text-c-green f-30 m-r-10 danger"></i><span id="all_deaths"><span></h3>
+                        </div>
+                        <div class="col-3 text-right">
+                            <h6 class="m-b-0"><span id="rate_deaths"></span>%</h6>
+                        </div>
+                    </div>
+                    <div class="progress m-t-30" style="height: 7px;">
+                        <div id="deaths-bar" class="progress-bar progress-c-theme danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <div class="card daily-sales">
+                <div class="card-block">
+                    <h6 class="mb-4">Total Cured</h6>
+                    <div class="row d-flex align-items-center">
+                        <div class="col-9">
+                            <h3 class="f-w-300 d-flex align-items-center m-b-0"><i class="feather icon-arrow-up text-c-green f-30 m-r-10"></i><span id="all_cured"><span></h3>
+                        </div>
+                        <div class="col-3 text-right">
+                            <h8 class="m-b-0"><span id="rate_cured"></span>%</h8>
+                        </div>
+                    </div>
+                    <div class="progress m-t-30" style="height: 7px;">
+                        <div id="cured-bar" class="progress-bar progress-c-theme" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Covid situation per week</h5>
+            </div>
+            <div class="card-block table-border-style">
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                    <h5>Choose A week for more details</h5>
+            </div>
+            <div class="card-block table-border-style">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        {% set weekNum = 0 %}
+                        {# {% set id = null %} #}
+                        {% for num in 0..7 %} {# rond #}
+                            <tr>
+                                {% for numb in 0..6 %}
+                                    {% set weekNum = (num * 7) + numb %}
+                                    {% if weekNum < 53 %}
+                                        {# {% if records[weekNum] != null and  records[weekNum].getWeekRecord == weekNum %}     #}
+                                            {# {% set id = records[weekNum].getWeekRecord %} #}
+                                        {# {% endif %} #}
+                                        <td class={{ weekNum in weeks ? 'calendar' : 'empty'}}>
+                                            {% if weekNum in weeks %}
+                                                <a class="link" href="{{ path('recordsByWeek_show', {'week_record': weekNum}) }}">{{ weekNum }}</a>
+                                            {% else %}
+                                                {{ weekNum }}
+                                            {% endif %}
+                                        </td>
+                                    {% endif %}
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% set labels = [] %}
+{% set data_cases = [] %}
+{% set data_deaths = [] %}
+{% set data_cured = [] %}
+
+{% for record in records %}
+    {% set labels = weeks %}
+    {% set labs = record.getLabsRec %}
+    {% set hospitals = record.gethospitalsRec %}
+    {% set cases_number = 0 %}
+    {% set tested_number = 0 %}
+    {% set deaths_number = 0 %}
+    {% set cured_number = 0 %}
+
+    {% for hospital in hospitals %}
+        {% set cases_number = cases_number + hospital.casesNumber %}
+        {% set deaths_number = deaths_number + hospital.deathsNumber %}
+        {% set cured_number = cured_number + hospital.curedNumber %}
+    {% endfor %}
+    {% for lab in labs %}
+        {% set cases_number = cases_number + lab.casesNumber %}
+        {% set tested_number = tested_number + lab.testedNumber %}
+    {% endfor %}
+    {% set data_cases = data_cases|merge([cases_number]) %}
+    {% set data_deaths = data_deaths|merge([deaths_number]) %}
+    {% set data_cured = data_cured|merge([cured_number]) %}
+
+    {% set all_cases_number = all_cases_number + cases_number %}
+    {% set all_deaths_number = all_deaths_number + deaths_number %}
+    {% set all_cured_number = all_cured_number + cured_number %}
+    {% set all_tested_number = all_tested_number + tested_number %}
+
+{% endfor %}
+
+{% set cases_rate = all_cases_number / all_tested_number * 100 %}
+{% set deaths_rate = all_deaths_number / all_tested_number * 100 %}
+{% set cured_rate = all_cured_number / all_cases_number * 100 %}
+
+<script>
+    document.getElementById('all_cases').innerHTML = {{ all_cases_number }};
+    document.getElementById('all_deaths').innerHTML = {{ all_deaths_number }};
+    document.getElementById('all_cured').innerHTML = {{ all_cured_number }};
+
+    document.getElementById('rate_cases').innerHTML = {{ (cases_rate)|format_number({rounding_mode: 'floor', fraction_digit: 1}) }}
+    document.getElementById('rate_deaths').innerHTML = {{ (deaths_rate)|format_number({rounding_mode: 'floor', fraction_digit: 1}) }};
+    document.getElementById('rate_cured').innerHTML = {{ (cured_rate)|format_number({rounding_mode: 'floor', fraction_digit: 1}) }};
+
+    document.getElementById('cases-bar').setAttribute('style', 'width:{{ cases_rate }}%;');
+    document.getElementById('deaths-bar').setAttribute('style', 'width:{{ (deaths_rate) }}%;');
+    document.getElementById('cured-bar').setAttribute('style', 'width:{{ (cured_rate) }}%;');
+
+
+     {# data-labels={{labels|json_encode}} data-data={{data|json_encode}} #}
+    document.getElementById('myChart').setAttribute('data-labels', {{labels|json_encode}});
+    document.getElementById('myChart').setAttribute('data-cases', {{data_cases|json_encode}});
+    document.getElementById('myChart').setAttribute('data-deaths', {{data_deaths|json_encode}});
+    document.getElementById('myChart').setAttribute('data-cured', {{data_cured|json_encode}});
+    
+    chart();
+</script>
+
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hospital index{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Hospital index</h5>
+            </div>
+            <div class="card-block table-border-style">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Id</th>
+                                <th>Hospital_name</th>
+                                <th>Date_record</th>
+                                <th>Cases_number</th>
+                                <th>Intcare_number</th>
+                                <th>Deaths_number</th>
+                                <th>Cured_number</th>
+                                <th>actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for hospital in hospitals %}
+                            <tr>
+                                <td>{{ hospital.id }}</td>
+                                <td>{{ hospital.hospitalName }}</td>
+                                <td>{{ hospital.dateRecord|date }}</td>
+                                <td>{{ hospital.casesNumber }}</td>
+                                <td>{{ hospital.intcare }}</td>
+                                <td>{{ hospital.deathsNumber }}</td>
+                                <td>{{ hospital.curedNumber }}</td>
+                                <td>
+                                    <a href="{{ path('hospital_show', {'id': hospital.id}) }}">show</a>
+                                    <a href="{{ path('hospital_edit', {'id': hospital.id}) }}">edit</a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="3">no records found</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {{ knp_pagination_render(hospitals) }}
+                <a class="btn btn-info" href="{{ path('hospital_new') }}">Create new</a>
+            </div>
+        </div>
+    </div>
+</div>{% endblock %}

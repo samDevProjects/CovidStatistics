@@ -1,0 +1,224 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Departement{% endblock %}
+
+{% block body %}
+    
+<h3 class="m-b-10 page-title">Situation in <span class="title-color">{{departement.getDepartmentName}}</span></h3>
+
+
+    {% set labels_months = [] %}
+    {% set data_deaths = [] %}
+    {% set data_cured =[] %}
+    {% set data_intcare = [] %}
+    {% set data_cases = [] %}
+    {% set data_tested = [] %}
+    {% set data_negatives = [] %}
+
+    {% set all_deaths_number = 0 %}
+    {% set all_cured_number = 0 %}
+    {% set all_intcare_number = 0 %}
+    {% set all_cases_number = 0 %}
+    {% set all_tested_number = 0 %}
+    {% set all_negatif_number = 0 %}
+
+   {% for dep in depByMonth %}
+        {% set labels_months = labels_months|merge([dep.month]) %}
+        {% set deaths_number = 0 %}
+        {% set cured_number = 0 %}
+        {% set intcare_number = 0 %}
+        {% set cases_number = 0 %}
+        {% set tested_number = 0 %}
+        {% set negatif_number = 0 %}
+
+         {% for hospital in dep['hospitals'] %}
+
+            {% set cases_number = cases_number + hospital.casesNumber %}
+            {% set deaths_number = deaths_number + hospital.deathsNumber %}
+            {% set cured_number = cured_number + hospital.curedNumber %}
+            {% set intcare_number = intcare_number + hospital.intcare %}
+
+        {% endfor %}
+
+        {% for lab in dep['labs'] %}
+
+            {% set cases_number = cases_number + lab.casesNumber %}
+            {% set tested_number = tested_number + lab.testedNumber %}
+            {% set negatif_number = tested_number + lab.negatifNumber %}
+
+        {% endfor %}
+
+            {% set data_cases = data_cases|merge([cases_number]) %}
+            {% set data_tested = data_tested|merge([tested_number]) %}
+            {% set data_negatives = data_negatives|merge([negatif_number]) %}
+
+            {% set data_deaths = data_deaths|merge([deaths_number]) %}
+            {% set data_cured = data_cured|merge([cured_number]) %}
+            {% set data_intcare = data_intcare|merge([intcare_number]) %}
+
+        {% set all_cases_number = all_cases_number + cases_number %}
+        {% set all_deaths_number = all_deaths_number + deaths_number %}
+        {% set all_cured_number = all_cured_number + cured_number %}
+        {% set all_tested_number = all_tested_number + tested_number %}
+        {% set all_intcare_number = all_intcare_number + intcare_number %}
+        {% set all_negatif_number = all_negatif_number + negatif_number %}
+
+    {% endfor %}
+
+    {% set cases_rate = (all_cases_number / all_tested_number * 100)|format_number({rounding_mode: 'floor', fraction_digit: 1}) %}
+    {% set deaths_rate = (all_deaths_number / all_tested_number * 100)|format_number({rounding_mode: 'floor', fraction_digit: 1}) %}
+    {% set cured_rate = (all_cured_number / all_cases_number * 100)|format_number({rounding_mode: 'floor', fraction_digit: 1}) %}
+    {% set intcare_rate = (all_intcare_number / all_cases_number * 100)|format_number({rounding_mode: 'floor', fraction_digit: 1}) %}
+
+
+<div class="my-container">
+    <div class="row">
+        <div class="col-md-6 col-xl-4">
+            <div class="card daily-sales">
+                <div class="card-block">
+                    <h6 class="mb-4">Total Cases</h6>
+                    <div class="row d-flex align-items-center">
+                        <div class="col-9">
+                            <h3 class="f-w-300 d-flex align-items-center m-b-0"><i class="feather icon-arrow-up text-c-green f-30 m-r-10 warning"></i><span>{{all_cases_number}}<span></h3>
+                        </div>
+                        <div class="col-3 text-right">
+                            <h8 class="m-b-0"><span>{{cases_rate}}</span>%</h8>
+                        </div>
+                    </div>
+                    <div class="progress m-t-30" style="height: 7px;">
+                        <div id="cases-bar" class="progress-bar progress-c-theme2" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <div class="card daily-sales">
+                <div class="card-block">
+                    <h6 class="mb-4">Total Deaths</h6>
+                    <div class="row d-flex align-items-center">
+                        <div class="col-9">
+                            <h3 class="f-w-300 d-flex align-items-center m-b-0"><i class="feather icon-arrow-up text-c-green f-30 m-r-10 danger"></i><span>{{all_deaths_number}}<span></h3>
+                        </div>
+                        <div class="col-3 text-right">
+                            <h6 class="m-b-0"><span>{{deaths_rate}}</span>%</h6>
+                        </div>
+                    </div>
+                    <div class="progress m-t-30" style="height: 7px;">
+                        <div id="deaths-bar" class="progress-bar progress-c-theme danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <div class="card daily-sales">
+                <div class="card-block">
+                    <h6 class="mb-4">Total Cured</h6>
+                    <div class="row d-flex align-items-center">
+                        <div class="col-9">
+                            <h3 class="f-w-300 d-flex align-items-center m-b-0"><i class="feather icon-arrow-up text-c-green f-30 m-r-10"></i><span>{{all_cured_number}}<span></h3>
+                        </div>
+                        <div class="col-3 text-right">
+                            <h8 class="m-b-0"><span>{{cured_rate}}</span>%</h8>
+                        </div>
+                    </div>
+                    <div class="progress m-t-30" style="height: 7px;">
+                        <div id="cured-bar" class="progress-bar progress-c-theme" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Covid situation in {{ departement.departmentName }}</h5>
+            </div>
+            <div class="card-block table-border-style">
+                <canvas id="all-data"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Covid situation in {{ departement.departmentName }}</h5>
+            </div>
+            <div class="card-block table-border-style">
+                <canvas id="all-data2"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{# <div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                    <h5>Departement</h5>
+            </div>
+            <div class="card-block table-border-style">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <th>Id</th>
+                                <td>{{ departement.id }}</td>
+                            </tr>
+                            <tr>
+                                <th>Department name</th>
+                                <td>{{ departement.departmentName }}</td>
+                            </tr>
+                            <tr>
+                                <th>Department number</th>
+                                <td>{{ departement.departementNumber }}</td>
+                            </tr>
+                            <tr>
+                                <th>Department region</th>
+                                <td>{{ departement.getRegion.regionName }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <a class="btn btn-info" href="{{ path('departement_index') }}">back to list</a>
+                <a class="btn btn-info" href="{{ path('departement_edit', {'id': departement.id}) }}">edit</a>
+                {{ include('departement/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+</div> #}
+
+<script>
+
+    document.getElementById('cases-bar').setAttribute('style', 'width:{{ cases_rate }}%;');
+    document.getElementById('deaths-bar').setAttribute('style', 'width:{{ (deaths_rate) }}%;');
+    document.getElementById('cured-bar').setAttribute('style', 'width:{{ (cured_rate) }}%;');
+    {# document.getElementById('intcare-bar').setAttribute('style', 'width:{{ (intcare_rate) }}%;'); #}
+
+    
+    
+    document.getElementById('all-data').setAttribute('data-months', {{labels_months|json_encode|raw}});
+    document.getElementById('all-data').setAttribute('data-cases', {{data_cases|json_encode|raw}});
+    document.getElementById('all-data').setAttribute('data-intcare', {{data_intcare|json_encode|raw}});
+    document.getElementById('all-data').setAttribute('data-deaths', {{data_deaths|json_encode|raw}});
+    document.getElementById('all-data').setAttribute('data-cured', {{data_cured|json_encode|raw}});
+    document.getElementById('all-data').setAttribute('data-tested', {{data_tested|json_encode|raw}});
+    document.getElementById('all-data').setAttribute('data-negatif', {{data_negatives|json_encode|raw}});
+
+    document.getElementById('all-data').setAttribute('data-all_cases', {{all_cases_number}});
+    document.getElementById('all-data').setAttribute('data-all_intcare', {{all_intcare_number}});
+    document.getElementById('all-data').setAttribute('data-all_deaths', {{all_deaths_number}});
+    document.getElementById('all-data').setAttribute('data-all_cured', {{all_cured_number}});
+    document.getElementById('all-data').setAttribute('data-all_tested', {{all_tested_number}});
+    document.getElementById('all-data').setAttribute('data-all_negatif', {{all_negatif_number}});
+    LineByMonth('all-data');
+    DonutByMonth('all-data2');
+</script>
+{% endblock %}
